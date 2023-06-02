@@ -1,0 +1,42 @@
+<launch>
+<arg name="map_file" default="$(find arobota2)/map/final_map.yaml"/>
+<param name="/use_sim_time" value="false"/>
+<!-- <arg name="node_start_delay" default="35"/> -->
+<!--global map-->
+  <node name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find arobota2)/rviz/navigation_multi_new7.rviz"/>
+  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
+      <param name="frame_id" value="/map" />
+  <include file="$(find arobota2)/launch/multi_robot_des_real.launch"/>
+  <include file="$(find arobota2)/launch/navigation_gazebo_multi_1.launch"/>
+  <include file="$(find arobota2)/launch/navigation_gazebo_multi_2.launch"/>
+  <include file="$(find arobota2)/launch/navigation_gazebo_multi_3.launch"/>
+  <node pkg="arobota2" type="omni_cmdvel_multi_1.py" name="cmd_vel_tf1" output="screen"/>
+  <node pkg="arobota2" type="omni_cmdvel_multi_3.py" name="cmd_vel_tf2" output="screen"/>
+  <node pkg="arobota2" type="omni_cmdvel_multi_2.py" name="cmd_vel_tf3" output="screen"/>
+
+  <!--initialize localization-->
+  <node pkg="arobota2" type="initialize_position_auto.py" name="initialize_localize" output="screen" />
+  <!--collect pose-->
+  <node pkg="arobota2" type="pose_collector_array.py" name="pose_collector" output="screen" />
+  
+  <!--publish visual line-->
+  <node pkg="arobota2" type="pointandline.py" name="publish_visual_line" output="screen" />
+  <!-- Nodes -->
+  <group ns="robot1">
+    <node pkg="arobota2" type="omni_odom_tf_multi_1.py" name="Omni_tf" output="screen"/>
+  </group>
+  <group ns="robot2">
+    <node pkg="arobota2" type="omni_odom_tf_multi_2.py" name="Omni_tf" output="screen"/>
+  </group>
+
+  <group ns="robot3">
+    <node pkg="arobota2" type="omni_odom_tf_multi_3.py" name="Omni_tf" output="screen"/>
+  </group>
+    <!-- automatic formation control according to custom waypoints-->
+  <include file="$(find arobota2)/launch/auto_nav_ball.launch"/> 
+  <include file="$(find arobota2)/launch/multi_cam.launch"/> 
+</launch>
+
+
+
+

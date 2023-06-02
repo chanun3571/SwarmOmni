@@ -13,10 +13,30 @@ class publish_goal_pose_to_robot3():
         rospy.Subscriber('/robot3/move_base/result',MoveBaseActionResult,self.failcallback3)
         self.flag = rospy.Publisher('/robot3/flag', String, queue_size=1)
         rospy.Subscriber('/swarm1/done', String, self.donecallback)
+        rospy.Subscriber('robot1/camera_status', String, self.cam1callback)
+        rospy.Subscriber('robot2/camera_status', String, self.cam2callback)
+        rospy.Subscriber('robot3/camera_status', String, self.cam3callback)
+
+        self.interrupt = "WAIT"        
         self.done = "WAIT"
         self.locations = dict()
         self.flag3 = 0
         self.ready = False
+
+    def cam1callback(self, msg):
+        self.robot1_camstat = msg.data 
+        if self.robot1_camstat == "tracking":
+            self.interrupt = "STOP"
+    def cam2callback(self, msg):
+        self.robot2_camstat = msg.data 
+        if self.robot2_camstat == "tracking":
+            self.interrupt = "STOP"
+    def cam3callback(self, msg):
+        self.robot3_camstat = msg.data 
+        if self.robot3_camstat == "tracking":
+            self.interrupt = "STOP"
+
+
     def donecallback(self,msg):
         self.done = msg.data
         # print(self.done)
@@ -47,6 +67,11 @@ class publish_goal_pose_to_robot3():
                     self.flag_done = "0"
                     self.flag.publish(self.flag_done)
                     self.done= "WAIT"
+                    break
+                if self.interrrupt == "STOP":
+                    client.cancel_all_goals()
+                    client.cancel_goal()
+                    print("cancel_goal")
                     break
 
 

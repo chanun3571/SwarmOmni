@@ -6,5 +6,8 @@
   <node pkg="arobota2" type="assign_path_to_robot_1_4.py" name="path1" output="screen"/>
   <node pkg="arobota2" type="assign_path_to_robot_2_4.py" name="path2" output="screen"/>
   <node pkg="arobota2" type="assign_path_to_robot_3_4.py" name="path3" output="screen"/>
-  <!-- <node pkg="arobota2" type= -->
+  <node pkg="arobota2" type="camera_color_ros_with_publish_1.py" name="cam1" output="screen"/>
+  <node pkg="arobota2" type="camera_color_ros_with_publish_2.py" name="cam2" output="screen"/>
+  <node pkg="arobota2" type="camera_color_ros_with_publish_3.py" name="cam3" output="screen"/>
+
 </launch>

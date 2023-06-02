@@ -17,7 +17,7 @@ from sensor_msgs.msg import Image, CompressedImage
 from std_msgs.msg import Float32, String
 from cv_bridge import CvBridge, CvBridgeError
 
-class color_shape_detection:
+class color_shape_detection_2:
     #convert the ROS Image message to a CV2 Image
     def __init__(self):
         rospy.init_node('robot2_camera_shape_color_cv',anonymous=True)
@@ -106,7 +106,7 @@ class color_shape_detection:
 
 if __name__=='__main__':
     try:
-        agent=color_shape_detection()
+        agent=color_shape_detection_2()
         agent.spin()
     except rospy.ROSInterruptException:
         pass
