@@ -12,14 +12,14 @@ from geometry_msgs.msg import Pose, PoseStamped, PoseArray, Twist
 class AgentManagerExample:
     def __init__(self):
         rospy.init_node("robot2_formation_velocity")
+        self.clock= 20
         self._main_start = False
-
         self.myid = 2
         self.rate = rospy.Rate(10)
         self._uh = Twist()
         self.finalvelo= Twist()
-        # self._my_zeta = np.zeros((1,3))
-        # self._zetas = np.zeros((3,3))
+        self._my_zeta = np.zeros((1,3))
+        self._zetas = np.zeros((3,3))
 
         self._pub_zeta = rospy.Publisher("zeta", PoseStamped, queue_size=1)
         # rospy.Subscriber("/allPose", PoseArray, self.positionArrayCallback, queue_size=1)
@@ -38,9 +38,9 @@ class AgentManagerExample:
         joy_ux = msg.axes[XBoxButton.LX]
         joy_uy = msg.axes[XBoxButton.LY]
         joy_omega = msg.axes[XBoxButton.RX]
-        self._uh.linear.x = joy_ux #(-1,1)
-        self._uh.linear.y = joy_uy #(-1,1)
-        self._uh.angular.z = joy_omega*8 #(-1,1)
+        self._uh.linear.x = joy_ux/2 #(-1,1)
+        self._uh.linear.y = joy_uy/2 #(-1,1)
+        self._uh.angular.z = joy_omega/2 #(-1,1)
 
     def poseArrayCallback(self, msg):
         arraynum = len(msg.poses)
@@ -74,33 +74,54 @@ class AgentManagerExample:
         d1 = np.array([(-0.25)*math.cos(math.pi/6),(-0.25)*math.sin(math.pi/6),0])  
         d2 = np.array([0,0.25,0])
         d3 = np.array([0.25*math.cos(math.pi/6),-0.25*math.sin(math.pi/6),0])
+
         q1= all_positions[0] + d1
         q2= all_positions[1] + d2
         q3= all_positions[2] + d3
-        
-        #faceoutside
         # zeta1 = self.zetas[0] #0 degree
         # zeta2 = self.zetas[1] + ((2*math.pi)/3) #120 degree
         # zeta3 = self.zetas[2] + ((4*math.pi)        self.myid = 1/3) #360 degree
         
         if self.myid==1:
-            self.velocity = (q2-q1) + (q3-q1) 
+            self.velocity = 0.2*((q2-q1)+ (q3-q1)) 
         if self.myid==2:
-            self.velocity = (q1-q2) + (q3-q2) 
+            self.velocity = 0.2*((q1-q2) + (q3-q2))
         if self.myid==3:
-            self.velocity = (q1-q3) + (q2-q3)
+            self.velocity = 0.2*((q2-q3)+ (q1-q3))
 
-        self.velocity_x, self.velocity_y = self.velocity[0]+self._uh.linear.x,self.velocity[1]+self._uh.linear.y
-        
+        zeta_dot = self.velocity
+        dt = 1.0 / self.clock
+        self._my_zeta += zeta_dot * dt
+        self.publish_zeta(self._my_zeta)
+
+        zeta1 = self._zetas[0]
+        zeta2 = self._zetas[1]
+        zeta3 = self._zetas[2]
+        rospy.loginfo(self._zetas)
+        if self.myid==1:
+            self.PIvelocity = 0.2* ((zeta1-zeta2)+(zeta1-zeta3))
+        if self.myid==2:
+            self.PIvelocity = 0.2 *((zeta2-zeta1)+(zeta2-zeta3))
+        if self.myid==3:
+            self.PIvelocity = 0.2 * ((zeta3-zeta1)+(zeta3-zeta2))
+
+        self.velocity_x, self.velocity_y = float(self.velocity[0]+self.PIvelocity[0]+self._uh.linear.x),float(self.velocity[1]+self.PIvelocity[1]+self._uh.linear.y)
         self.finalvelo.linear.x = self.velocity_x
-        self.finalvelo.linear.x = self.velocity_y
-        self.finalvelo.linear.x = self._uh.angular.z,
+        self.finalvelo.linear.y = self.velocity_y
+        self.finalvelo.angular.z = self._uh.angular.z
         if self.myid==1:
             self.pubvel1.publish(self.finalvelo)
         if self.myid==2:
             self.pubvel2.publish(self.finalvelo)
         if self.myid==3:
             self.pubvel3.publish(self.finalvelo)       
+
+    def publish_zeta(self, zeta):
+        msg = PoseStamped()
+        msg.pose.position.x = zeta[0][0]
+        msg.pose.position.y = zeta[0][1]
+        msg.pose.position.z = zeta[0][2]
+        self._pub_zeta.publish(msg)
 
     def spin(self):
         # initialize message
