@@ -30,10 +30,9 @@ class color_shape_detection:
         self.bridge = CvBridge()
         self.pubimgstatus = rospy.Publisher('/camera_status', String, queue_size=10 )
         # Stereo vision setup parameters
-        self.frame_rate = 30    #Camera frame rate (maximum at 120 fps)
+        self.frame_rate = 120    #Camera frame rate (maximum at 120 fps)
         self.B = 6               #Distance between the cameras [cm]
-        # f = 150            #Camera lense's focal length [mm]
-        self.alpha = 23      #Camera field of view in the horisontal plane [degrees]
+        self.alpha = 20    #Camera field of view in the horisontal plane [degrees]
         self.cv_image = np.array([])
         self.flag=0
 

@@ -93,7 +93,7 @@
   </collision>
 </link>
 
-<link name="lidar_link">
+<link name="sensors_link">
   <inertial>
     <origin xyz="-0.029581681955466045 0.042548549097526214 0.028542673476791153" rpy="0 0 0"/>
     <mass value="0.8868464662474358"/>
@@ -122,6 +122,13 @@
     </inertial>
 </link>
 
+<link name="camera">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 3.14"/>
+      <mass value="0.125"/>
+      <inertia ixx="0.000"  ixy="0"  ixz="0" iyy="0.000" iyz="0" izz="0.001" />
+    </inertial>
+</link>
 
 <!--base-footprint joint-->
 
@@ -134,17 +141,26 @@
 <!--base-lidar joint-->
 
 <joint name="lidar_joint" type="fixed">
-  <parent link="base_link"/>
+  <parent link="sensors_link"/>
   <child link="laser"/>
   <!--origin xyz="0 -0.03 0.15" rpy="0 0 1.57"/-->
-  <origin xyz="0.03 0 0.156" rpy="0 0 0"/>
+  <!--origin xyz="0.03 0 0.156" rpy="0 0 0"/-->
+  <origin xyz="0.000631 0.014322 0.108  " rpy="0 0 0"/>
 </joint>
+
+<joint name="camera_joint" type="fixed">
+  <parent link="sensors_link"/>
+  <child link="camera"/>
+  <!--origin xyz="0 -0.03 0.15" rpy="0 0 1.57"/-->
+  <origin xyz="0.040631 0.014322 0.042" rpy="0 0 0"/>
+</joint>
+
 
 
 <joint name="Rigid1" type="fixed">
   <origin xyz="0.029369 -0.014322 0.048" rpy="0 0 0 "/>
   <parent link="base_link"/>
-  <child link="lidar_link"/>
+  <child link="sensors_link"/>
 </joint>
 
 <!--joint name="Rev3" type="continuous"-->
@@ -215,7 +231,7 @@
     </sensor>
  </gazebo>
   
-<gazebo reference="lidar_link">
+<gazebo reference="sensors_link">
   <material>${body_color}</material>
   <mu1>0.2</mu1>
   <mu2>0.2</mu2>

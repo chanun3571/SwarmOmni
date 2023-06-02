@@ -3,11 +3,13 @@ digraph G {
 "base_footprint" -> "base_link"[label=" Broadcaster: /robot_state_publisher\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
 "base_link" -> "wheel_link_2"[label=" Broadcaster: /robot_state_publisher\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
 "base_link" -> "wheel_link_3"[label=" Broadcaster: /robot_state_publisher\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
-"base_link" -> "lidar_link"[label=" Broadcaster: /robot_state_publisher\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
-"base_link" -> "laser"[label=" Broadcaster: /robot_state_publisher\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
-"map" -> "odom"[label=" Broadcaster: /slam_gmapping\nAverage rate: 20.202\nBuffer length: 4.95\nMost recent transform: 1685180046.107\nOldest transform: 1685180041.157\n"];
+"base_link" -> "sensors_link"[label=" Broadcaster: /robot_state_publisher\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
+"sensors_link" -> "camera"[label=" Broadcaster: /robot_state_publisher\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
+"odom" -> "base_footprint"[label=" Broadcaster: /Omni_tf\nAverage rate: 10.204\nBuffer length: 4.9\nMost recent transform: 1685680593.701\nOldest transform: 1685680588.801\n"];
+"sensors_link" -> "laser"[label=" Broadcaster: /robot_state_publisher\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
+"map" -> "odom"[label=" Broadcaster: /robot_amcl\nAverage rate: 7.736\nBuffer length: 4.912\nMost recent transform: 1685680594.071\nOldest transform: 1685680589.159\n"];
 edge [style=invis];
  subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
-"Recorded at time: 1685180046.1052825"[ shape=plaintext ] ;
+"Recorded at time: 1685680593.7792144"[ shape=plaintext ] ;
 }->"map";
 }
