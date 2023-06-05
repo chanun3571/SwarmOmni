@@ -4,6 +4,7 @@ import numpy as np
 import rospy
 from geometry_msgs.msg import PoseArray,Pose, Point, PoseStamped, Pose, Quaternion
 from agent_util_multi import allPosi_allOrien
+from std_msgs.msg import String
 import math
 from numpy_ros import to_numpy, to_message
 
@@ -18,8 +19,13 @@ class assign_centroid():
         self.pubpoint3 = rospy.Publisher('/robot3_formation_pos', Pose, queue_size=1)
         self.pubcentroid = rospy.Publisher('/centroid', Pose, queue_size=1)
         rospy.Subscriber('/swarm1/move_base_simple/goal', PoseStamped, self.submit_centroid)
+        rospy.Subscriber('robot1/camera_status', String, self.cam1callback)
+        rospy.Subscriber('robot2/camera_status', String, self.cam2callback)
+        rospy.Subscriber('robot3/camera_status', String, self.cam3callback)
         self.ready = False
         self.centroid_pose = Pose()
+        self.interrupt = "WAIT"
+
 
     def submit_centroid(self, msg):
         self.centroid_pose.position.x = msg.pose.position.x
@@ -53,10 +59,24 @@ class assign_centroid():
             # self.pubpoint2.publish(to_message(Pose, p_robot2))
             # self.pubpoint3.publish(to_message(Pose, p_robot3))
     
-  
+    def cam1callback(self, msg):
+        self.robot1_camstat = msg.data 
+        if self.robot1_camstat == "tracking":
+            self.interrupt = "STOP"
+    def cam2callback(self, msg):
+        self.robot2_camstat = msg.data 
+        if self.robot2_camstat == "tracking":
+            self.interrupt = "STOP"
+    def cam3callback(self, msg):
+        self.robot3_camstat = msg.data 
+        if self.robot3_camstat == "tracking":
+            self.interrupt = "STOP"
+
     def spin(self):
         while not rospy.is_shutdown():
             self.findpos()
+            if self.interrupt == "STOP":
+                break
             rospy.Rate(5).sleep()
 
 if __name__=='__main__':

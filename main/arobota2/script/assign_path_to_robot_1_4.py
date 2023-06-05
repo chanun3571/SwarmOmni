@@ -68,7 +68,7 @@ class publish_goal_pose_to_robot1():
                     self.flag.publish(self.flag_done)
                     self.done= "WAIT"
                     break
-                if self.interrrupt == "STOP":
+                if self.interrupt == "STOP":
                     client.cancel_all_goals()
                     client.cancel_goal()
                     print("cancel_goal")
