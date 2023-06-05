@@ -17,6 +17,9 @@ class publish_goal_pose_to_robot():
         self.pubgoal = rospy.Publisher('/swarm1/move_base_simple/goal', PoseStamped, queue_size=1)
         self.pubgoalpoint = rospy.Publisher('/swarm1/move_base_simple/point', PointStamped, queue_size=1)
         self.pubsend = rospy.Publisher('/swarm1/done', String, queue_size=10)
+        rospy.Subscriber('robot1/camera_status', String, self.cam1callback)
+        rospy.Subscriber('robot2/camera_status', String, self.cam2callback)
+        rospy.Subscriber('robot3/camera_status', String, self.cam3callback)
         self.totalflag = 0 
         self.flag1 = 0
         self.flag2 = 0
@@ -25,7 +28,7 @@ class publish_goal_pose_to_robot():
         self.initdone = "WAIT"
         self.goalpoint = PointStamped()
         self.goalpoint.header.frame_id = "map"
-
+        self.interrupt = "WAIT"
 
     def robotinitdone(self, msg):
         self.initdone = msg.data
@@ -51,6 +54,19 @@ class publish_goal_pose_to_robot():
         self.locations['15'] = Point(1.2, -1.5, 0.000)
         self.locations['16'] = Point(1.2, -1.8, 0.000)
         self.locations['17'] = Point(1.3, -2, 0.000)
+
+    def cam1callback(self, msg):
+        self.robot1_camstat = msg.data 
+        if self.robot1_camstat == "tracking":
+            self.interrupt = "STOP"
+    def cam2callback(self, msg):
+        self.robot2_camstat = msg.data 
+        if self.robot2_camstat == "tracking":
+            self.interrupt = "STOP"
+    def cam3callback(self, msg):
+        self.robot3_camstat = msg.data 
+        if self.robot3_camstat == "tracking":
+            self.interrupt = "STOP"
 
     def sendGoals(self, waypoints):
         for key, value in waypoints.items():

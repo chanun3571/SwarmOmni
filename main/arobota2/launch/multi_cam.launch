@@ -1,5 +1,8 @@
-<launch> 
-<node pkg="arobota2" type="camera_color_ros_with_publish_1.py" name="cam1" output="screen"/>
-<!-- <node pkg="arobota2" type="camera_color_ros_with_publish_2.py" name="cam2" output="screen"/>
-<node pkg="arobota2" type="camera_color_ros_with_publish_3.py" name="cam3" output="screen"/> -->
+<launch>
+ <arg name="node_start_delay1" default="0"/>
+<arg name="node_start_delay2" default="0"/>
+<arg name="node_start_delay3" default="0"/> 
+<node pkg="arobota2" type="camera_color_ros_with_publish_1.py" name="cam1" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay1); $0 $@'"/>
+<node pkg="arobota2" type="camera_color_ros_with_publish_2.py" name="cam2" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay2); $0 $@'"/>
+<node pkg="arobota2" type="camera_color_ros_with_publish_3.py" name="cam3" output="screen"  launch-prefix="bash -c 'sleep $(arg node_start_delay3); $0 $@'"/>
 </launch>

@@ -39,13 +39,15 @@ class color_shape_detection:
     def image_callback(self, img_msg):
         try:
             self.cv_image = self.bridge.compressed_imgmsg_to_cv2(img_msg, "bgr8")
+            print(self.cv_image.shape)
+
         except CvBridgeError:
             rospy.loginfo("img_Failed")
 
     def opencv(self, img):
         try:
-            self.frame_left = img[:360,0:640]
-            self.frame_right = img[:360,640:]
+            self.frame_left = img[:480,0:640]
+            self.frame_right = img[:480,640:]
             # Calibration
             # self.frame_right, self.frame_left = calibration.undistortRectify(self.frame_right, self.frame_left)
             self.mask_right = hsv.add_HSV_filter(self.frame_right, 1)
@@ -91,7 +93,6 @@ class color_shape_detection:
 
             output = np.concatenate((self.frame_left, self.frame_right), axis=1)
             mask = np.concatenate((self.mask_left, self.mask_right), axis=1)
-            cv2.imshow("output", output)
             self.pubopencvimg.publish(self.bridge.cv2_to_compressed_imgmsg(output))
             self.pubopencvmask.publish(self.bridge.cv2_to_compressed_imgmsg(mask))
         except:

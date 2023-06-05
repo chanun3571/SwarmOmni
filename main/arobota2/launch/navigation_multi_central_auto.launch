@@ -33,7 +33,12 @@
     <node pkg="arobota2" type="omni_odom_tf_multi_3.py" name="Omni_tf" output="screen"/>
   </group>
     <!-- automatic formation control according to custom waypoints-->
-  <include file="$(find arobota2)/launch/auto_nav.launch"/> 
+  <include file="$(find arobota2)/launch/auto_nav.launch"/>
+  
+    <!-- publish opencv to ros - multi camera-->
+
+  <include file="$(find arobota2)/launch/multi_cam.launch"/> 
+
 </launch>
 
 

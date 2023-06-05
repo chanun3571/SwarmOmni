@@ -15,22 +15,24 @@ import calibration
 import rospy
 from sensor_msgs.msg import Image, CompressedImage
 from std_msgs.msg import Float32, String
+import cv2
 from cv_bridge import CvBridge, CvBridgeError
 
-class color_shape_detection_1:
+class color_shape_detection:
     #convert the ROS Image message to a CV2 Image
     def __init__(self):
-        rospy.init_node('robot1_camera_shape_color_cv',anonymous=True)
-        self.pubz = rospy.Publisher('robot1/depth', String, queue_size=10)
-        self.pubx = rospy.Publisher('robot1/x', String, queue_size=10)
-        rospy.Subscriber("robot1/image/compressed", CompressedImage, self.image_callback)
+        rospy.init_node('camera_shape_color_cv_1',anonymous=True)
+        self.pubz = rospy.Publisher('/robot1/depth', String, queue_size=10)
+        self.pubx = rospy.Publisher('/robot1/x', String, queue_size=10)
+        rospy.Subscriber("/robot1/image/compressed", CompressedImage, self.image_callback)
+        self.pubopencvimg = rospy.Publisher('/robot1/opencv/image/compressed', CompressedImage, queue_size=10 )
+        self.pubopencvmask = rospy.Publisher('/robot1/opencv/mask/compressed', CompressedImage, queue_size=10 )
         self.bridge = CvBridge()
-        self.pubimgstatus = rospy.Publisher('robot1/camera_status', String, queue_size=10 )
+        self.pubimgstatus = rospy.Publisher('/robot1/camera_status', String, queue_size=10 )
         # Stereo vision setup parameters
-        self.frame_rate = 30    #Camera frame rate (maximum at 120 fps)
+        self.frame_rate = 120    #Camera frame rate (maximum at 120 fps)
         self.B = 6               #Distance between the cameras [cm]
-        # f = 150            #Camera lense's focal length [mm]
-        self.alpha = 30        #Camera field of view in the horisontal plane [degrees]
+        self.alpha = 23    #Camera field of view in the horisontal plane [degrees] for robot1
         self.cv_image = np.array([])
         self.flag=0
 
@@ -42,8 +44,8 @@ class color_shape_detection_1:
 
     def opencv(self, img):
         try:
-            self.frame_left = img[:360,0:640]
-            self.frame_right = img[:360,640:]
+            self.frame_left = img[:480,0:640]
+            self.frame_right = img[:480,640:]
             # Calibration
             # self.frame_right, self.frame_left = calibration.undistortRectify(self.frame_right, self.frame_left)
             self.mask_right = hsv.add_HSV_filter(self.frame_right, 1)
@@ -59,41 +61,41 @@ class color_shape_detection_1:
 
             # Hough Transforms can be used aswell or some neural network to do object detection
 
-
             ################## CALCULATING BALL DEPTH #########################################################
 
             # If no ball can be caught in one camera show text "TRACKING LOST"
             if np.all(circles_right) == None or np.all(circles_left) == None:
-                cv2.putText(self.frame_right, "NOT FOUND", (75,50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255),2)
-                cv2.putText(self.frame_left, "NOT FOUND", (75,50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255),2)
-                self.pubimgstatus.publish("not found")
+                self.frame_right=cv2.putText(self.frame_right, "NOT FOUND", (75,50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255),2)
+                self.frame_left=cv2.putText(self.frame_left, "NOT FOUND", (75,50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255),2)
+                self.pubimgstatus.publish("not_found")
             else:
                 # Function to calculate depth of object. Outputs vector of all depths in case of several balls.
                 # All formulas used to find depth is in video presentaion
                 self.x, self.depth = tri.find_depth(circles_right, circles_left, self.frame_right, self.frame_left, self.B, self.alpha)
-                if 55<self.depth<90 and 77<radius_right<160 and 77<radius_left<160 and 10<self.x<30:
-                    cv2.putText(self.frame_right, "TRACKING", (75,50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (124,252,0),2)
-                    cv2.putText(self.frame_left, "TRACKING", (75,50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (124,252,0),2)
-                    cv2.putText(self.frame_right, "Distance: " + str(round(self.depth,2)), (300,50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (124,252,0),2)
-                    cv2.putText(self.frame_left, "Distance: " + str(round(self.depth,2)), (300,50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (124,252,0),2)
-                    cv2.putText(self.frame_right, "X: " + str(round(self.x,2)), (500,50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (124,252,0),2)
-                    cv2.putText(self.frame_left, "X: " + str(round(self.x,2)), (500,50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (124,252,0),2)
+                if 40<self.depth<65 and 110<radius_right<185 and 110<radius_left<185 and 10<self.x<30:
+                    self.frame_right=cv2.putText(self.frame_right, "TRACKING", (75,50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (124,252,0),2)
+                    self.frame_left=cv2.putText(self.frame_left, "TRACKING", (75,50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (124,252,0),2)
+                    self.frame_right=cv2.putText(self.frame_right, "Distance: " + str(round(self.depth,2)), (300,50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (124,252,0),2)
+                    self.frame_left=cv2.putText(self.frame_left, "Distance: " + str(round(self.depth,2)), (300,50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (124,252,0),2)
+                    self.frame_right=cv2.putText(self.frame_right, "X: " + str(round(self.x,2)), (500,50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (124,252,0),2)
+                    self.frame_left=cv2.putText(self.frame_left, "X: " + str(round(self.x,2)), (500,50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (124,252,0),2)
                     self.pubx.publish(str(self.x))
                     self.pubz.publish(str(self.depth))
                     self.pubimgstatus.publish("tracking")
                 else:
-                    cv2.putText(self.frame_right, "DETECTED: NOT TRACKING", (75,50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255),2)
-                    cv2.putText(self.frame_left, "DETECTED: NOT TRACKING", (75,50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255),2)
+                    self.frame_right=cv2.putText(self.frame_right, "DETECTED: NOT TRACKING", (75,50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255),2)
+                    self.frame_left=cv2.putText(self.frame_left, "DETECTED: NOT TRACKING", (75,50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255),2)
                     self.pubimgstatus.publish("not_tracking")
                     self.pubx.publish(str(self.x))
                     self.pubz.publish(str(self.depth))
-                    
-            cv2.imshow("frame right", self.frame_right) 
-            cv2.imshow("frame left", self.frame_left)
-            cv2.imshow("mask right", self.mask_right) 
-            cv2.imshow("mask left", self.mask_left)  
-            # print(radius_right, radius_left) 
-            cv2.waitKey(3)
+
+            output = np.concatenate((self.frame_left, self.frame_right), axis=1)
+            mask = np.concatenate((self.mask_left, self.mask_right), axis=1)
+            # cv2.imshow("output", output)
+            self.pubopencvimg.publish(self.bridge.cv2_to_compressed_imgmsg(output))
+            self.pubopencvmask.publish(self.bridge.cv2_to_compressed_imgmsg(mask))
+            # cv2.waitKey(3)
+
         except:
             print("cv_Failed") 
                                    
@@ -106,7 +108,7 @@ class color_shape_detection_1:
 
 if __name__=='__main__':
     try:
-        agent=color_shape_detection_1()
+        agent=color_shape_detection()
         agent.spin()
     except rospy.ROSInterruptException:
         pass

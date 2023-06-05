@@ -1,7 +1,7 @@
 <launch> 
   <arg name="node_start_delay" default="0"/>
   <arg name="node_start_delay1" default="0"/>
-  <node pkg="arobota2" type="assign_centroid_search.py" name="search" output="screen"/>
+  <node pkg="arobota2" type="assign_centroid_search_cancel.py" name="search" output="screen"/>
   <node pkg="arobota2" type="centroid_multi_submit.py" name="submit" output="screen"/>
   <node pkg="arobota2" type="assign_path_to_robot_1_4.py" name="path1" output="screen"/>
   <node pkg="arobota2" type="assign_path_to_robot_2_4.py" name="path2" output="screen"/>

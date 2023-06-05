@@ -34,7 +34,7 @@
   </group>
     <!-- automatic formation control according to custom waypoints-->
   <include file="$(find arobota2)/launch/auto_nav_ball.launch"/> 
-  <include file="$(find arobota2)/launch/multi_cam.launch"/> 
+  <!-- <include file="$(find arobota2)/launch/multi_cam.launch"/>  -->
 </launch>
 
 
