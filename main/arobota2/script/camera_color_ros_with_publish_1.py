@@ -106,7 +106,7 @@ class color_shape_detection_1:
 
 if __name__=='__main__':
     try:
-        agent=color_shape_detection()
+        agent=color_shape_detection_1()
         agent.spin()
     except rospy.ROSInterruptException:
         pass

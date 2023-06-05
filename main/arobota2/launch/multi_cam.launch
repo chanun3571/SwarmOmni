@@ -1,5 +1,5 @@
 <launch> 
 <node pkg="arobota2" type="camera_color_ros_with_publish_1.py" name="cam1" output="screen"/>
-<node pkg="arobota2" type="camera_color_ros_with_publish_2.py" name="cam2" output="screen"/>
-<node pkg="arobota2" type="camera_color_ros_with_publish_3.py" name="cam3" output="screen"/>
+<!-- <node pkg="arobota2" type="camera_color_ros_with_publish_2.py" name="cam2" output="screen"/>
+<node pkg="arobota2" type="camera_color_ros_with_publish_3.py" name="cam3" output="screen"/> -->
 </launch>
