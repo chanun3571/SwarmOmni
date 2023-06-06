@@ -32,14 +32,14 @@ class color_shape_detection:
         # Stereo vision setup parameters
         self.frame_rate = 120    #Camera frame rate (maximum at 120 fps)
         self.B = 6               #Distance between the cameras [cm]
-        self.alpha = 20    #Camera field of view in the horisontal plane [degrees]
+        self.alpha = 30    #Camera field of view in the horisontal plane [degrees]
         self.cv_image = np.array([])
         self.flag=0
 
     def image_callback(self, img_msg):
         try:
             self.cv_image = self.bridge.compressed_imgmsg_to_cv2(img_msg, "bgr8")
-            print(self.cv_image.shape)
+            # print(self.cv_image.shape)
 
         except CvBridgeError:
             rospy.loginfo("img_Failed")

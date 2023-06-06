@@ -10,10 +10,10 @@ from numpy_ros import to_numpy, to_message
 class create_visual_sphere():
     def __init__(self):
         rospy.init_node('publish_ball_pose')
-        rospy.Subscriber('/depth', String, self.depth_callback, queue_size=1)
-        rospy.Subscriber('/camera_status', String, self.camera_status, queue_size=1)
-        self.camstat = "WAITING"
-        rospy.Subscriber('amcl_pose', PoseWithCovarianceStamped, self.allpose_callback, queue_size=1)
+        rospy.Subscriber('robot1/depth', String, self.depth_callback, queue_size=1)
+        rospy.Subscriber('robot1/camera_status', String, self.camera_status, queue_size=1)
+        self.camstat = "WAIT"
+        rospy.Subscriber('robot1/amcl_pose', PoseWithCovarianceStamped, self.allpose_callback, queue_size=1)
         
         self.marker_pub = rospy.Publisher('ball_pose', Marker, queue_size=2) 
         self.ball_cen_pub = rospy.Publisher('ball_pose_cen', Point, queue_size=2) 
@@ -35,12 +35,12 @@ class create_visual_sphere():
         self.robotquat = msg.pose.pose.orientation
         self.robotangle = tf.transformations.euler_from_quaternion([self.robotquat.x,self.robotquat.y,self.robotquat.z,self.robotquat.w])
         self.robotangle = self.robotangle[2] 
-        print(self.robotangle)   
+        # print(self.robotangle)   
 
     def send_ball_pose(self):
         self.ball_pose.position.x = (float(self.depth)*cos(self.robotangle))/100
         self.ball_pose.position.y = (float(self.depth)*sin(self.robotangle))/100
-        # print(self.ball_pose.position)
+        print(self.ball_pose.position)
 
     def sphere_marker(self):
 

@@ -34,7 +34,7 @@ class create_visual_sphere():
         self.robotquat = msg.pose.pose.orientation
         self.robotangle = tf.transformations.euler_from_quaternion([self.robotquat.x,self.robotquat.y,self.robotquat.z,self.robotquat.w])
         self.robotangle = self.robotangle[2] 
-        print(self.robotangle)   
+        # print(self.robotangle)   
 
     def send_ball_pose(self):
         self.ball_pose.position.x = (float(self.depth)*cos(self.robotangle))/100
@@ -71,6 +71,7 @@ class create_visual_sphere():
         self.sphere_pose = Point()
         self.sphere_pose.x = self.robotpos.x+self.ball_pose.position.x
         self.sphere_pose.y = self.robotpos.y+self.ball_pose.position.y
+        self.ball_cen_pub.publish(self.sphere_pose) 
         
 
     def spin(self):

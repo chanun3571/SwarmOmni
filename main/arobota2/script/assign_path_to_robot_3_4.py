@@ -51,6 +51,7 @@ class publish_goal_pose_to_robot3():
         # this command to wait for the server to start listening for goals.
         client.wait_for_server()
         if self.ready:
+            self.reached = False
             goal = MoveBaseGoal()
             goal.target_pose.header.frame_id = "map"
             goal.target_pose.header.stamp = rospy.Time.now()
