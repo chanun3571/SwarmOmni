@@ -29,9 +29,9 @@ class create_visual_sphere():
         marker.action = marker.ADD
 
         # marker scale
-        marker.scale.x = 0.1
-        marker.scale.y = 0.1
-        marker.scale.z = 0.1
+        marker.scale.x = 0.2
+        marker.scale.y = 0.2
+        marker.scale.z = 0.2
         # marker color
         marker.color.a = 1.0
         marker.color.r = 1.0
