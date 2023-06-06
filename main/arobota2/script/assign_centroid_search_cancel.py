@@ -40,7 +40,7 @@ class publish_goal_pose_to_robot():
         self.locations['1'] = Point(-0.7, 0.7, 0.000)
         self.locations['2'] = Point(-0.7, 0.3, 0.000)
         self.locations['3'] = Point(-0.6, 0.0, 0.000)
-        self.locations['4'] = Point(-0.45, -0.0, 0.000)        
+        # self.locations['4'] = Point(-0.45, -0.0, 0.000)        
         self.locations['5'] = Point(-0.3, 0.0, 0.000)
         self.locations['6'] = Point(-0.3, -0.4, 0.000)  
         self.locations['7'] = Point(0, -0.5, 0.000)

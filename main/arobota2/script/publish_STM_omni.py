@@ -54,10 +54,10 @@ class STM_Connect():
                     self.right_wheel_power = self.right_wheel_power +10 
                 if self.center_wheel_power>0:
                     self.center_wheel_power = self.center_wheel_power +10 
-            # if abs(self.left_wheel_power)+abs(self.right_wheel_power)+abs(self.center_wheel_power)<30:
-            #     self.center_wheel_power = float(self.center_wheel_power) * 1.2
-            #     self.left_wheel_power = float(self.left_wheel_power) * 1.2
-            #     self.right_wheel_power = float(self.right_wheel_power) * 1.2           
+            if abs(self.left_wheel_power)+abs(self.right_wheel_power)+abs(self.center_wheel_power)<30:
+                self.center_wheel_power = float(self.center_wheel_power) * 1.2
+                self.left_wheel_power = float(self.left_wheel_power) * 1.2
+                self.right_wheel_power = float(self.right_wheel_power) * 1.2           
        #power command   
         power_message = "M0"+"A"+str(self.left_wheel_power)+"B"+str(self.right_wheel_power)+"C"+str(self.center_wheel_power)+"\r\n"
         ser.write(bytes(power_message, 'utf-8'))

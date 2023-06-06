@@ -33,7 +33,7 @@ class publish_goal_pose_to_robot1():
         self.locations['1'] = Pose(Point(-0.7, 0.7, 0.000), Quaternion(0.000, 0.000, -0.717, 0.697))
         self.locations['2'] = Pose(Point(-0.7, 0.3, 0.000), Quaternion(0.000, 0.000, -0.717, 0.697))
         self.locations['3'] = Pose(Point(-0.6, 0.0, 0.000), Quaternion(0.000, 0.000, -0.717, 0.697))
-        self.locations['4'] = Pose(Point(-0.45, -0.0, 0.000), Quaternion(0.000, 0.000, -0.717, 0.697))      
+        # self.locations['4'] = Pose(Point(-0.45, -0.0, 0.000), Quaternion(0.000, 0.000, -0.717, 0.697))      
         self.locations['5'] = Pose(Point(-0.3, 0.0, 0.000), Quaternion(0.000, 0.000, -0.717, 0.697))
         self.locations['6'] = Pose(Point(-0.3, -0.4, 0.000), Quaternion(0.000, 0.000, -0.717, 0.697))  
         self.locations['7'] = Pose(Point(0, -0.5, 0.000), Quaternion(0.000, 0.000, -0.717, 0.697))
