@@ -39,7 +39,7 @@ class create_visual_sphere():
     def send_ball_pose(self):
         self.ball_pose.position.x = (float(self.depth)*cos(self.robotangle))/100
         self.ball_pose.position.y = (float(self.depth)*sin(self.robotangle))/100
-        # print(self.ball_pose.position)
+        print(self.ball_pose.position)
 
     def sphere_marker(self):
 
@@ -81,7 +81,7 @@ class create_visual_sphere():
                 self.send_ball_pose()
                 self.sphere_marker()
                 self.publish_sphere_pose()
-                break
+                
 
 if __name__=='__main__':
     try:

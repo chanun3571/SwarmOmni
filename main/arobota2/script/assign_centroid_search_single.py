@@ -10,17 +10,19 @@ class publish_goal_pose_to_robot1():
         rospy.init_node('search')
         # rospy.Subscriber('move_base/goal', MoveBaseActionGoal, self.CustomWayPoints1, queue_size=1)
         rospy.Subscriber('move_base/result',MoveBaseActionResult,self.failcallback1, queue_size=1)
-        rospy.Subscriber('interruptsignal', String, self.robotinterrupt,queue_size=10)
+        rospy.Subscriber('camera_status', String, self.robotinterrupt,queue_size=10)
         rospy.Subscriber('initialize_state', String, self.robotinitdone, queue_size=10)
         # self.cancel_pub = rospy.Publisher("/move_base/cancel", GoalID, queue_size=1)
         self.msg1 = "WAIT"
         self.initdone = "WAIT"
-        self.interrupt = "FALSE"
+        self.interrupt = "WAIT"
         self.locations = dict()
         self.flag1 = 0
 
     def robotinterrupt(self, msg):
-        self.interrupt = msg.data
+        self.robot_camstat = msg.data 
+        if self.robot_camstat == "tracking":
+            self.interrupt = "STOP"
 
     def robotinitdone(self, msg):
         self.initdone = msg.data
@@ -71,8 +73,11 @@ class publish_goal_pose_to_robot1():
             print(goal)
             client.send_goal(goal)
             while self.msg1 != "Goal reached.":
+                rospy.Rate(10).sleep()
+                # print(self.interrupt)
                 if self.interrupt == "STOP":
                     client.cancel_goal()
+                    client.cancel_all_goals()
                     print("cancel_goal")
                     break
             if self.interrupt == "STOP":
@@ -90,8 +95,8 @@ class publish_goal_pose_to_robot1():
             self.flag1 = 1
             # rospy.loginfo("robot1")
             print(self.flag1)
-        # if msg.status.text== "Goal reached." :
-        #     self.flag1 = 0
+        if msg.status.text== "Goal reached." :
+            self.flag1 = 0
             
     def resubmit1(self):
         if self.flag1 == 1:

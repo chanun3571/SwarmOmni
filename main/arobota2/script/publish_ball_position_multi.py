@@ -10,10 +10,10 @@ from numpy_ros import to_numpy, to_message
 class create_visual_sphere():
     def __init__(self):
         rospy.init_node('publish_ball_pose')
-        rospy.Subscriber('robot1/depth', String, self.depth_callback, queue_size=1)
-        rospy.Subscriber('robot1/camera_status', String, self.camera_status, queue_size=1)
+        rospy.Subscriber('robot3/depth', String, self.depth_callback, queue_size=1)
+        rospy.Subscriber('robot3/camera_status', String, self.camera_status, queue_size=1)
         self.camstat = "WAIT"
-        rospy.Subscriber('robot1/amcl_pose', PoseWithCovarianceStamped, self.allpose_callback, queue_size=1)
+        rospy.Subscriber('robot3/amcl_pose', PoseWithCovarianceStamped, self.allpose_callback, queue_size=1)
         
         self.marker_pub = rospy.Publisher('ball_pose', Marker, queue_size=2) 
         self.ball_cen_pub = rospy.Publisher('ball_pose_cen', Point, queue_size=2) 
@@ -81,7 +81,6 @@ class create_visual_sphere():
                 self.send_ball_pose()
                 self.sphere_marker()
                 self.publish_sphere_pose()
-                break
 
 if __name__=='__main__':
     try:
