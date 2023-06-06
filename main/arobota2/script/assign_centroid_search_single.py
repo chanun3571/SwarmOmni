@@ -83,7 +83,7 @@ class publish_goal_pose_to_robot1():
                 
     def failcallback1(self, msg):
         rospy.loginfo(msg.status.text)
-        self.msg1 =msg.status.text
+        self.msg1 = msg.status.text
         if msg.status.text=="Robot is oscillating. Even after executing recovery behaviors." or \
            msg.status.text=="Failed to find a valid control. Even after executing recovery behaviors." or \
            msg.status.text=="Failed to find a valid plan. Even after executing recovery behaviors." :

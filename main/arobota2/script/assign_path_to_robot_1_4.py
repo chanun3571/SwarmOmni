@@ -56,9 +56,9 @@ class publish_goal_pose_to_robot1():
             goal.target_pose.header.stamp = rospy.Time.now()
             goal.target_pose.pose = self.pose
             client.send_goal(goal)
-            wait = client.wait_for_result()
+            # wait = client.wait_for_result()
             while self.done != "DONE":
-                if wait and self.reached:
+                if self.reached:
                     self.flag_done = "1"
                     self.flag.publish(self.flag_done)
                     # rospy.loginfo("robot1 done")
