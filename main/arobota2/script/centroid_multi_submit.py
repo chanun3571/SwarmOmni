@@ -78,6 +78,8 @@ class assign_centroid():
             if self.interrupt == "STOP":
                 break
             rospy.Rate(5).sleep()
+        print("STOP centroid")
+
 
 if __name__=='__main__':
     try:

@@ -122,6 +122,7 @@ class publish_goal_pose_to_robot():
                 self.CustomWayPoints()
                 self.sendGoals(self.locations)
                 break
+        print("STOP CENTROID")
 
 if __name__=='__main__':
     try:

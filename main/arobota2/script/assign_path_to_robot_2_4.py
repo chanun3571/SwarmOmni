@@ -98,6 +98,8 @@ class publish_goal_pose_to_robot2():
         # initialize message
         while not rospy.is_shutdown():
             self.sendGoals(self.locations)
+            if self.interrupt == "STOP":
+                break
             # self.resubmit2()
             rospy.Rate(5).sleep()
 
