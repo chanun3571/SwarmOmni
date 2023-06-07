@@ -5,7 +5,7 @@ shutdown_costmaps: false
 #make_plan_clear_costmap: true
 #max_planning_retries: 1
 
-controller_frequency: 10
+controller_frequency: 8
 controller_patience: 5
 
 planner_frequency: 0.5
