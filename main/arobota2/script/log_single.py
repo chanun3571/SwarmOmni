@@ -7,42 +7,42 @@ import tf
 
 from std_msgs.msg import Bool, String
 from geometry_msgs.msg import Pose, Twist, PoseStamped, PoseWithCovarianceStamped
-
+import math 
 import datetime
 import pandas as pd
-import math
 
 
 class Log:
     def __init__(self):
         rospy.init_node("log")
 
-        self._log_path = rospy.get_param("~log_path")
+        self._log_path = rospy.get_param("~log_path","~/Desktop/")
         self._log = []
         self._log_hz = 100
         self._start_t = None
-        self._initdone = "WAIT"
+        self.initdone = "WAIT"
         rospy.Subscriber('survey_state', String, self.surveystate_callback)
 
-        self._uh = Twist()
         self._average_pose_stamped = PoseStamped()
         self._random_pose_stamped = PoseStamped()
         rospy.Subscriber('initialize_state', String, self.robotinitdone, queue_size=10)
-        rospy.Subscriber("uh", Twist, self.uh_callback)
         rospy.Subscriber("/amcl_pose", PoseWithCovarianceStamped, self.pose_callback)
         self.robot1pose = Pose()
         self.surveystate = "WAIT"
+        self.posmag_robot1 = 0
       ##########################################################################
     #### subscriber
     ##########################################################################
-    def pose_callback(self, msg):       
-        self.robot1pose = msg.pose.pose
+    def pose_callback(self, msg):
+        print(msg.pose.pose.position.y)
+        print(self.robot1pose.position.x)       
+        self.robot1pose.position.x = 1.3-float(msg.pose.pose.position.y)
+        self.robot1pose.position.y = (float(msg.pose.pose.position.x) +1.5)
+        self.robot1pose.orientation = msg.pose.pose.orientation
+        self.posmag_robot1 = math.sqrt((self.robot1pose.position.x)**2 + (self.robot1pose.position.y)**2)
 
     def surveystate_callback(self, msg):       
         self.surveystate = msg.data
-
-    def pose_callback(self, msg):       
-        self.robot1pose = msg.pose.pose
 
     def robotinitdone(self, msg):
         self.initdone = msg.data
@@ -69,7 +69,8 @@ class Log:
             t.to_sec(),
             self.robot1pose.position.x,
             self.robot1pose.position.y,
-            euler_yaw_robot1
+            euler_yaw_robot1,
+            self.posmag_robot1
         ]
         self._log.append(data)
 
@@ -83,6 +84,7 @@ class Log:
                 "position_x",
                 "position_y",
                 "orientation_z",
+                "position_magni"
             ],
         )
         df.to_csv(filename + ".csv", index=False)
@@ -91,7 +93,7 @@ class Log:
     def spin(self):
         rate = rospy.Rate(self._log_hz)
         while not rospy.is_shutdown():
-            if self.initdone:
+            if self.initdone == "DONE":
                 self.log()
             rate.sleep()
             if self.surveystate == "DONE":
