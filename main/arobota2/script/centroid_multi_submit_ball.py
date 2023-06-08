@@ -7,6 +7,7 @@ from agent_util_multi import allPosi_allOrien
 from std_msgs.msg import String, Bool
 import math
 from numpy_ros import to_numpy, to_message
+from time import sleep
 
 class assign_centroid():
     def __init__(self):
@@ -18,6 +19,7 @@ class assign_centroid():
         self.pubpoint2 = rospy.Publisher('/robot2_formation_pos_ball', Pose, queue_size=1)
         self.pubpoint3 = rospy.Publisher('/robot3_formation_pos_ball', Pose, queue_size=1)
         self.pubcentroid = rospy.Publisher('/centroid', Pose, queue_size=1)
+
         # self.pubready = rospy.Publisher('/ready', Bool, queue_size=1)
 
         rospy.Subscriber('/ball_pose_cen', Point, self.ball_pose)
@@ -35,9 +37,9 @@ class assign_centroid():
         if self.ready:
             # rospy.loginfo(self.centroid_pose)
             self.centroid = to_numpy(self.centroid_pose.position)
-            d1 = np.array([(-0.25)*math.cos(math.pi/6),(-0.25)*math.sin(math.pi/6),0])  
-            d2 = np.array([0,0.25,0])
-            d3 = np.array([0.25*math.cos(math.pi/6),-0.25*math.sin(math.pi/6),0])
+            d1 = np.array([(-0.3)*math.cos(math.pi/6),(-0.3)*math.sin(math.pi/6),0])  
+            d2 = np.array([0,0.3,0])
+            d3 = np.array([0.3*math.cos(math.pi/6),-0.3*math.sin(math.pi/6),0])
             p_robot1 = to_message(Point,self.centroid + d1)
             p_robot2 = to_message(Point,self.centroid + d2)
             p_robot3 = to_message(Point,self.centroid + d3)
@@ -55,6 +57,7 @@ class assign_centroid():
     def spin(self):
         while not rospy.is_shutdown():
             if self.ready:
+                sleep(3)
                 self.findpos()
             rospy.Rate(5).sleep()
         print("STOP centroid")
