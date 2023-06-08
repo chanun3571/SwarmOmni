@@ -35,7 +35,9 @@ class publish_goal_pose_to_robot3():
             goal.target_pose.pose = self.pose
             client.send_goal(goal)
             wait = client.wait_for_result()
-
+            if self.reached:
+                self.flag_done = "1"
+                self.flag.publish(self.flag_done)
 
 
     def failcallback3(self, msg):

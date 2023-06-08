@@ -19,6 +19,7 @@ class publish_goal_pose_to_robot():
         self.pubsend = rospy.Publisher('/swarm1/done', String, queue_size=10)
         rospy.Subscriber('robot1/camera_status', String, self.cam1callback)
         rospy.Subscriber('robot2/camera_status', String, self.cam2callback)
+        self.surveydone = rospy.Publisher('survey_state', String, queue_size=10)
         rospy.Subscriber('robot3/camera_status', String, self.cam3callback)
         self.totalflag = 0 
         self.flag1 = 0
@@ -37,23 +38,19 @@ class publish_goal_pose_to_robot():
     def CustomWayPoints(self):
         # Create the dictionary 
         self.locations = dict()
-        self.locations['1'] = Point(-0.7, 0.7, 0.000)
-        self.locations['2'] = Point(-0.7, 0.3, 0.000)
-        self.locations['3'] = Point(-0.6, 0.0, 0.000)
-        self.locations['4'] = Point(-0.3, 0.0, 0.000)
-        self.locations['5'] = Point(-0.3, -0.4, 0.000)  
-        self.locations['6'] = Point(0, -0.2, 0.000)
-        self.locations['7'] = Point(0, -0.5, 0.000)
-        self.locations['8'] = Point(0.4, -0.8, 0.000)
-        self.locations['9'] = Point(0.6, -0.6, 0.000)
-        self.locations['10'] = Point(0.8, -0.8, 0.000)
-        self.locations['11'] = Point(1, -0.8, 0.000)
-        self.locations['11'] = Point(1.3, -1, 0.000)
-        self.locations['12'] = Point(1.3, -1.3, 0.000)
-        self.locations['13'] = Point(1.3, -1.5, 0.000)
-        self.locations['14'] = Point(1.3, -1.8, 0.000)
-        self.locations['15'] = Point(1.3, -2.1, 0.000)
-
+        self.locations['1'] = Point(-0.7, 0.3, 0.000)
+        self.locations['2'] = Point(-0.6, -0.2, 0.000)
+        self.locations['3'] = Point(-0.3, 0.0, 0.000)
+        self.locations['4'] = Point(-0, -0.2, 0.000)  
+        self.locations['5'] = Point(0.2, -0.9, 0.000)
+        self.locations['6'] = Point(0.4, -0.4, 0.000)
+        self.locations['7'] = Point(0.6, -0.8, 0.000)
+        self.locations['8'] = Point(0.8, -1, 0.000)
+        self.locations['9'] = Point(1.2, -0.8, 0.000)
+        self.locations['10'] = Point(1.3, -1.3, 0.000)
+        self.locations['11'] = Point(0.8, -1.5, 0.000)
+        self.locations['12'] = Point(1.4, -2.1, 0.000)
+     
     def cam1callback(self, msg):
         self.robot1_camstat = msg.data 
         if self.robot1_camstat == "tracking":
@@ -120,6 +117,7 @@ class publish_goal_pose_to_robot():
             if self.initdone == "DONE":
                 self.CustomWayPoints()
                 self.sendGoals(self.locations)
+                self.surveydone.publish("DONE")
                 break
         print("STOP CENTROID")
 

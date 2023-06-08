@@ -29,7 +29,7 @@ Panels:
   - Class: rviz/Time
     Name: Time
     SyncMode: 0
-    SyncSource: Image
+    SyncSource: ""
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -123,8 +123,6 @@ Visualization Manager:
           Value: true
         laser:
           Value: true
-        map:
-          Value: true
         odom:
           Value: true
         sensors_link:
@@ -142,21 +140,20 @@ Visualization Manager:
       Show Axes: false
       Show Names: false
       Tree:
-        map:
-          odom:
-            base_footprint:
-              base_link:
-                sensors_link:
-                  camera:
-                    {}
-                  laser:
-                    {}
-                wheel_link_1:
+        odom:
+          base_footprint:
+            base_link:
+              sensors_link:
+                camera:
                   {}
-                wheel_link_2:
+                laser:
                   {}
-                wheel_link_3:
-                  {}
+              wheel_link_1:
+                {}
+              wheel_link_2:
+                {}
+              wheel_link_3:
+                {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -257,7 +254,7 @@ Visualization Manager:
           Topic: /move_base/DWAPlannerROS/global_plan
           Unreliable: false
           Value: true
-      Enabled: true
+      Enabled: false
       Name: Global Map
     - Class: rviz/Group
       Displays:
@@ -311,7 +308,7 @@ Visualization Manager:
       Axes Length: 0.30000001192092896
       Axes Radius: 0.009999999776482582
       Class: rviz/PoseArray
-      Color: 0; 192; 0
+      Color: 252; 233; 79
       Enabled: true
       Head Length: 0.07000000029802322
       Head Radius: 0.029999999329447746
@@ -394,7 +391,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 4.187176704406738
+      Distance: 4.689638137817383
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -402,17 +399,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: -0.10688719153404236
-        Y: -2.2783548831939697
-        Z: -0.3294145464897156
+        X: -0.009179997257888317
+        Y: -2.952583074569702
+        Z: -0.2689398229122162
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.9897966384887695
+      Pitch: 1.0647965669631958
       Target Frame: <Fixed Frame>
-      Yaw: 3.155393362045288
+      Yaw: 3.1303927898406982
     Saved: ~
 Window Geometry:
   Displays:

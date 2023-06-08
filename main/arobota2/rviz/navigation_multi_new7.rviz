@@ -6,11 +6,12 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /PoseArray1
+        - /PoseArray1/PoseArray21
         - /GlobalMap1/GlobalMap21/CostMap21
         - /LocalMap1/LocalMap11/Costmap11
         - /LocalMap1/LocalMap31/Costmap31
         - /Marker2
-        - /Marker2/Status1
       Splitter Ratio: 0.5
     Tree Height: 405
   - Class: rviz/Selection
@@ -30,7 +31,7 @@ Panels:
   - Class: rviz/Time
     Name: Time
     SyncMode: 0
-    SyncSource: cv_robot1
+    SyncSource: ""
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -253,7 +254,7 @@ Visualization Manager:
           Axes Length: 0.30000001192092896
           Axes Radius: 0.009999999776482582
           Class: rviz/PoseArray
-          Color: 252; 233; 79
+          Color: 115; 210; 22
           Enabled: true
           Head Length: 0.07000000029802322
           Head Radius: 0.029999999329447746
@@ -488,7 +489,7 @@ Visualization Manager:
               Value: true
           Enabled: true
           Name: GlobalMap3
-      Enabled: true
+      Enabled: false
       Name: GlobalMap
     - Class: rviz/Group
       Displays:
@@ -633,14 +634,14 @@ Visualization Manager:
               Value: true
           Enabled: true
           Name: LocalMap3
-      Enabled: true
+      Enabled: false
       Name: LocalMap
     - Class: rviz/Marker
       Enabled: true
       Marker Topic: /visual_line
       Name: Marker
       Namespaces:
-        "": true
+        {}
       Queue Size: 100
       Value: true
     - Alpha: 1
@@ -810,7 +811,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 4.299306869506836
+      Distance: 4.237396717071533
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -818,9 +819,9 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 0.06884261220693588
-        Y: -2.070793390274048
-        Z: -0.49363574385643005
+        X: 0.07794970273971558
+        Y: -2.5535120964050293
+        Z: -0.48626086115837097
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false

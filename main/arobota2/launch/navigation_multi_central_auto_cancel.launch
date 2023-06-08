@@ -1,5 +1,5 @@
 <launch>
-<arg name="map_file" default="$(find arobota2)/map/final_map.yaml"/>
+<arg name="map_file" default="$(find arobota2)/map/final_map1.yaml"/>
 <param name="/use_sim_time" value="false"/>
 <!-- <arg name="node_start_delay" default="35"/> -->
 <!--global map-->

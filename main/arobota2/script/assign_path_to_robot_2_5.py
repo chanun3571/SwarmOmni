@@ -36,7 +36,9 @@ class publish_goal_pose_to_robot2():
             goal.target_pose.pose = self.pose
             client.send_goal(goal)
             wait = client.wait_for_result()
-
+            if self.reached:
+                self.flag_done = "1"
+                self.flag.publish(self.flag_done)
 
     def failcallback2(self, msg):
         # if msg.status.text=="Failed to find a valid plan. Even after executing recovery behaviors.":
