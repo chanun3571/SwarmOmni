@@ -22,11 +22,11 @@
   <node name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find arobota2)/rviz/navigation_new_with_cam.rviz"/>
   <node pkg="rosservice" type="rosservice" name="global_loc" args="call --wait /global_localization" />
   <node pkg="arobota2" type="initialize_position_auto.py" name="initialize_localize" output="screen" />
-  <node pkg="arobota2" type="assign_centroid_search_single.py" name="search" output="screen" />
+  <!-- <node pkg="arobota2" type="assign_centroid_search_single.py" name="search" output="screen" /> -->
   <node pkg="arobota2" type="camera_color_ros_with_publish.py" name="camera_detection" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay1); $0 $@'" />
   <!-- <node pkg="arobota2" type="cancel_goal_move_to_ball.py" name="cancel_goal" output="screen" /> -->
-  <node pkg="arobota2" type="publish_ball_position_single_pub.py" name="ball" output="screen"/>
-  <node pkg="arobota2" type="publish_fix_ball_marker.py" name="marker" output="screen"/>
-  <node pkg="arobota2" type="log_single.py" name="log" output="screen"/>
+  <!-- <node pkg="arobota2" type="publish_ball_position_single_pub.py" name="ball" output="screen"/> -->
+  <!-- <node pkg="arobota2" type="publish_fix_ball_marker.py" name="marker" output="screen"/> -->
+  <!-- <node pkg="arobota2" type="log_single.py" name="log" output="screen"/> -->
 
 </launch>

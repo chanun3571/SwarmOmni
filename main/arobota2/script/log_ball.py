@@ -38,13 +38,14 @@ class Log:
         self.robot2pose = Pose()
         self.robot3pose = Pose()
         self.surveystate = "WAIT"
+        self.ready = "WAIT"
     ##########################################################################
     #### subscriber
     ##########################################################################
     def ball_pose(self, msg):
         self.ball_pos.position.x = msg.x
         self.ball_pos.position.y = msg.y
-        self.ready = True
+        self.ready = "START"
 
     def robot1flagcallback(self,msg):
         self.flag1 = int(msg.data)
@@ -142,22 +143,22 @@ class Log:
                 "centroid_x",
                 "centriod_y",
                 "centriod_orientation_z",
-                "centriod_aver_mag"
+                "centriod_aver_mag",
                 "position_x_1",
                 "position_y_1",
                 "orientation_z_1",
-                "position_magni_1"
+                "position_magni_1",
                 "position_x_2",
                 "position_y_2",
                 "orientation_z_2",
-                "position_magni_2"               
+                "position_magni_2",              
                 "position_x_3",
                 "position_y_3",
                 "orientation_z_3",
-                "position_magni_3"
-                "ball_x"
+                "position_magni_3",
+                "ball_x",
                 "ball_y"
-            ],
+            ]
         )
         df.to_csv(filename + ".csv", index=False)
         rospy.loginfo("save " + filename)
@@ -165,11 +166,16 @@ class Log:
     def spin(self):
         rate = rospy.Rate(self._log_hz)
         while not rospy.is_shutdown():
-            if self.ready:
+            if self.ready=="START":
+                # print("start ball log")
                 self.log()
+                print(self.flag1,self.flag2,self.flag3)
+                self.checktotalflag(self.flag1, self.flag2,self.flag3) 
+                if self.flag:
+                    print("savelog ball")
+                    self.savelog()
+                    break
             rate.sleep()
-            if self.flag:
-                self.savelog()
 
 if __name__=='__main__':
     try:

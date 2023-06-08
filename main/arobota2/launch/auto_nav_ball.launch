@@ -9,18 +9,17 @@
   <node pkg="arobota2" type="camera_color_ros_with_publish_1.py" name="cam1" output="screen"/>
   <node pkg="arobota2" type="camera_color_ros_with_publish_2.py" name="cam2" output="screen"/>
   <node pkg="arobota2" type="camera_color_ros_with_publish_3.py" name="cam3" output="screen"/>
-  
-  <!-- <node pkg="arobota2" type="publish_ball_position_multi.py" name="ball" output="screen"/> -->
-
-  <node pkg="arobota2" type="publish_ball_position_multi_pub.py" name="ball" output="screen"/>
-  <node pkg="arobota2" type="publish_fix_ball_marker.py" name="marker_ball" output="screen"/>
   <node pkg="arobota2" type="log_multi.py" name="log_multi" output="screen"/>
+
+  <node pkg="arobota2" type="publish_ball_position_multi_pub_fix.py" name="ball" output="screen"/>
+  <node pkg="arobota2" type="publish_fix_ball_marker.py" name="marker_ball" output="screen"/>
   
-  <!-- <node pkg="arobota2" type="assign_path_to_robot_1_5.py" name="path1_ball" output="screen"/>
+  
+  <node pkg="arobota2" type="assign_path_to_robot_1_5.py" name="path1_ball" output="screen"/>
   <node pkg="arobota2" type="assign_path_to_robot_2_5.py" name="path2_ball" output="screen"/>
   <node pkg="arobota2" type="assign_path_to_robot_3_5.py" name="path3_ball" output="screen"/>
-  <node pkg="arobota2" type="centroid_multi_submit_ball.py" name="submit_ball" output="screen"/> -->
-  <!-- <node pkg="arobota2" type="log_ball.py" name="log_ball" output="screen"/> -->
+  <node pkg="arobota2" type="centroid_multi_submit_ball.py" name="submit_ball" output="screen"/> 
+   <node pkg="arobota2" type="log_ball.py" name="log_ball" output="screen"/> 
 
 
 

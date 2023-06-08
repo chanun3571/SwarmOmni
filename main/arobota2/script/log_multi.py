@@ -117,15 +117,15 @@ class Log:
                 "centroid_x",
                 "centriod_y",
                 "centriod_orientation_z",
-                "centriod_aver_mag"
+                "centriod_aver_mag",
                 "position_x_1",
                 "position_y_1",
                 "orientation_z_1",
-                "position_magni_1"
+                "position_magni_1",
                 "position_x_2",
                 "position_y_2",
                 "orientation_z_2",
-                "position_magni_2"               
+                "position_magni_2",               
                 "position_x_3",
                 "position_y_3",
                 "orientation_z_3",
@@ -143,6 +143,7 @@ class Log:
             rate.sleep()
             if self.surveystate == "DONE":
                 self.savelog()
+                break
 
 if __name__=='__main__':
     try:

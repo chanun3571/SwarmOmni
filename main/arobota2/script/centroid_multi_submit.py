@@ -55,6 +55,7 @@ class assign_centroid():
             self.pubpoint1.publish(Pose(p_robot1, q_robot1))
             self.pubpoint2.publish(Pose(p_robot2, q_robot2))
             self.pubpoint3.publish(Pose(p_robot3, q_robot3))
+            self.ready = False
             # self.pubpoint1.publish(to_message(Pose, p_robot1))
             # self.pubpoint2.publish(to_message(Pose, p_robot2))
             # self.pubpoint3.publish(to_message(Pose, p_robot3))
