@@ -51,6 +51,7 @@
     <remap from="amcl_pose"                 to="/robot2/amcl_pose"/>
     <remap from="particlecloud"             to="/robot2/particlecloud"/>
   </node>
+  <node pkg="rosservice" type="rosservice" name="global_loc_2" args="call --wait /global_localization" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'"/>
 
 
 </launch>
