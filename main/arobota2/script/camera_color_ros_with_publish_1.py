@@ -72,7 +72,9 @@ class color_shape_detection:
                 # Function to calculate depth of object. Outputs vector of all depths in case of several balls.
                 # All formulas used to find depth is in video presentaion
                 self.x, self.depth = tri.find_depth(circles_right, circles_left, self.frame_right, self.frame_left, self.B, self.alpha)
-                if 40<self.depth<70 and 110<radius_right<185 and 110<radius_left<185 and 10<self.x<30:
+                print(radius_right)
+                print(radius_left)
+                if 40<self.depth<70 and 110<radius_right<200 and 110<radius_left<200 and 10<self.x<30:
                     self.frame_right=cv2.putText(self.frame_right, "TRACKING", (75,50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (124,252,0),2)
                     self.frame_left=cv2.putText(self.frame_left, "TRACKING", (75,50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (124,252,0),2)
                     self.frame_right=cv2.putText(self.frame_right, "Distance: " + str(round(self.depth,2)), (300,50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (124,252,0),2)
@@ -81,6 +83,7 @@ class color_shape_detection:
                     self.frame_left=cv2.putText(self.frame_left, "X: " + str(round(self.x,2)), (500,50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (124,252,0),2)
                     self.pubx.publish(str(self.x))
                     self.pubz.publish(str(self.depth))
+                    
                     self.pubimgstatus.publish("tracking")
                 else:
                     self.frame_right=cv2.putText(self.frame_right, "DETECTED: NOT TRACKING", (75,50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255),2)

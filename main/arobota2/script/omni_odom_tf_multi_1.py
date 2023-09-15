@@ -87,7 +87,6 @@ class OmniTf:
             self.enc_left = self.left
             self.enc_right = self.right
             self.enc_center = self.center
-           
             # distance traveled 
             dx = 0.57736*d_right -0.57736*d_left
             dy =  0.3333*d_right + 0.3333*d_left - 0.6666*d_center

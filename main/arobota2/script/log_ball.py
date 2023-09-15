@@ -175,7 +175,6 @@ class Log:
                     print("savelog ball")
                     self.savelog()
                     break
-                self.savelog()
             rate.sleep()
 
 if __name__=='__main__':

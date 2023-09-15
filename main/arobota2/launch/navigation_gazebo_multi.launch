@@ -4,7 +4,7 @@
  <arg name="node_start_delay1" default="35"/>
  
   <!-- Map server -->
-    <node pkg="map_server" name="map_server" type="map_server" args="$(find arobota2)/map/mymap5.yaml">
+    <node pkg="map_server" name="map_server" type="map_server" args="$(find arobota2)/map/final_map1.yaml">
     <param name="frame_id" value="map" />
     </node>
 
@@ -13,7 +13,7 @@
     <include file="$(find arobota2)/launch/navigation_gazebo_multi_3.launch"/>  
 
   <!-- rviz -->
-  <node name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find arobota2)/rviz/navigation_multi_new4.rviz"/>
+  <node name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find arobota2)/rviz/navigation_multi_new7.rviz"/>
 
   <!--initialize localization-->
   <!-- <node pkg="arobota2" type="initialize_position.py" name="initialize_localize" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'"/> -->
