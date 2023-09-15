@@ -56,9 +56,6 @@ class assign_centroid():
             self.pubpoint2.publish(Pose(p_robot2, q_robot2))
             self.pubpoint3.publish(Pose(p_robot3, q_robot3))
             self.ready = False
-            # self.pubpoint1.publish(to_message(Pose, p_robot1))
-            # self.pubpoint2.publish(to_message(Pose, p_robot2))
-            # self.pubpoint3.publish(to_message(Pose, p_robot3))
     
     def cam1callback(self, msg):
         self.robot1_camstat = msg.data 

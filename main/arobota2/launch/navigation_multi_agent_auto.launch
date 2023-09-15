@@ -6,7 +6,6 @@
   <group ns="robot1">
       <node machine="robot1" pkg="arobota2" type="recieve_STM_omni.py" name="STM_Sub" output="screen"/>
       <node machine= "robot1" pkg="arobota2" type="publish_STM_omni.py" name="STM_Pub" output="screen"/>
-
       <include file="$(find arobota2)/launch/camera_multi.launch">
         <arg name="robot_name" value="robot1"/>
       </include>
@@ -16,11 +15,9 @@
       </include>
   </group>
 
-  
- <group ns="robot2">
+   <group ns="robot2">
       <node machine="robot2" pkg="arobota2" type="recieve_STM_omni.py" name="STM_Sub" output="screen"/>
       <node machine= "robot2" pkg="arobota2" type="publish_STM_omni.py" name="STM_Pub" output="screen" />
-
       <include file="$(find arobota2)/launch/camera_multi.launch">
         <arg name="robot_name" value="robot2"/>
       </include>
@@ -33,7 +30,6 @@
  <group ns="robot3">
       <node machine="robot3" pkg="arobota2" type="recieve_STM_omni.py" name="STM_Sub" output="screen"/>
       <node machine= "robot3" pkg="arobota2" type="publish_STM_omni.py" name="STM_Pub" output="screen"/>
-
       <include file="$(find arobota2)/launch/camera_multi.launch">
         <arg name="robot_name" value="robot3"/>
       </include>
@@ -43,3 +39,11 @@
       </include>
   </group>
 </launch>
+
+
+
+
+
+
+
+

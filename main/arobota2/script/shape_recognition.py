@@ -16,7 +16,7 @@ def find_circles(frame, mask):
         # it to compute the minimum enclosing circle and
         # centroid
         c = max(contours, key=cv2.contourArea)
-        ((x, y), radius) = cv2.minEnclosingCircle(c)
+     ccccc
         M = cv2.moments(c)       #Finds center point
         center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
 
